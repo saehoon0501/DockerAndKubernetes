@@ -17,18 +17,15 @@ jobs:
       - run: docker build -t saehoon/react-test -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true saehoon/react-test npm test
 
-      - name: build each client
-      - run: |
-          docker build -t saehoon/multi-client ./client
-          docker build -t saehoon/multi-nginx ./nginx
-          docker build -t saehoon/multi-server ./server
-          docker build -t saehoon/multi-worker ./worker
-      - name: push all the built images to Docker hub
-      - run: |
-          docker push saehoon/multi-client
-          docker push saehoon/multi-nginx
-          docker push saehoon/multi-server
-          docker push saehoon/multi-worker
+      - run: docker build -t saehoon/multi-client ./client
+      - run: docker build -t saehoon/multi-nginx ./nginx
+      - run: docker build -t saehoon/multi-server ./server
+      - run: docker build -t saehoon/multi-worker ./worker
+
+      - run: docker push saehoon/multi-client
+      - run: docker push saehoon/multi-nginx
+      - run: docker push saehoon/multi-server
+      - run: docker push saehoon/multi-worker
 
       # - name: Generate deployment package
       #   run: zip -r deploy.zip . -x '*.git*'
