@@ -10,12 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ./complex
     steps:
       - uses: actions/checkout@v3
       - run: docker login -u ${{secrets.DOCKER_USERNAME }} -p ${{secrets.DOCKER_PASSWORD}}
-      - run: docker build -t saehoon/react-test -f Dockerfile.dev .
+      - run: docker build -t saehoon/react-test -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true saehoon/react-test npm test
+
+      - name: build each client
+      - run: |
+        docker build -t saehoon/multi-client ./client
+        docker build -t saehoon/multi-nginx ./nginx
+        docker build -t saehoon/multi-server ./server
+        docker build -t saehoon/multi-worker ./worker
+      - name: push all the built images to Docker hub
+      - run: |
+        docker push saehoon/multi-client
+        docker push saehoon/multi-nginx
+        docker push saehoon/multi-server
+        docker push saehoon/multi-worker
+
       # - name: Generate deployment package
       #   run: zip -r deploy.zip . -x '*.git*'
       # - name: Deploy to EB
@@ -28,5 +42,5 @@ jobs:
       #     existing_bucket_name: elasticbeanstalk-ap-northeast-2-104625403644
       #     region: ap-northeast-2
       #     version_label: ${{ github.sha }}
-      #     deployment_package: ./frontend/deploy.zip
+      #     deployment_package: ./complex/deploy.zip
       #     wait_for_environment_recovery: 60
