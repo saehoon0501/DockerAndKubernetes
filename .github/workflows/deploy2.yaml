@@ -19,16 +19,16 @@ jobs:
 
       - name: build each client
       - run: |
-        docker build -t saehoon/multi-client ./client
-        docker build -t saehoon/multi-nginx ./nginx
-        docker build -t saehoon/multi-server ./server
-        docker build -t saehoon/multi-worker ./worker
+          docker build -t saehoon/multi-client ./client
+          docker build -t saehoon/multi-nginx ./nginx
+          docker build -t saehoon/multi-server ./server
+          docker build -t saehoon/multi-worker ./worker
       - name: push all the built images to Docker hub
       - run: |
-        docker push saehoon/multi-client
-        docker push saehoon/multi-nginx
-        docker push saehoon/multi-server
-        docker push saehoon/multi-worker
+          docker push saehoon/multi-client
+          docker push saehoon/multi-nginx
+          docker push saehoon/multi-server
+          docker push saehoon/multi-worker
 
       # - name: Generate deployment package
       #   run: zip -r deploy.zip . -x '*.git*'
