@@ -27,17 +27,18 @@ jobs:
       - run: docker push saehoon0501/multi-server
       - run: docker push saehoon0501/multi-worker
 
-      # - name: Generate deployment package
-      #   run: zip -r deploy.zip . -x '*.git*'
-      # - name: Deploy to EB
-      #   uses: einaregilsson/beanstalk-deploy@v18
-      #   with:
-      #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-      #     aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-      #     application_name: my-react
-      #     environment_name: My-react-env
-      #     existing_bucket_name: elasticbeanstalk-ap-northeast-2-104625403644
-      #     region: ap-northeast-2
-      #     version_label: ${{ github.sha }}
-      #     deployment_package: ./complex/deploy.zip
-      #     wait_for_environment_recovery: 60
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          bucket_path: "docker-multi"
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: multi-client
+          environment_name: Multi-client-env
+          existing_bucket_name: elasticbeanstalk-ap-northeast-2-104625403644
+          region: ap-northeast-2
+          version_label: ${{ github.sha }}
+          deployment_package: ./complex/deploy.zip
+          wait_for_environment_recovery: 60
