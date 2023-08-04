@@ -1,0 +1,12 @@
+apiVersion: v1 #apiVersion마다 정의된 Object 타입이 다르다.
+kind: Pod # 생성하고자 하는 Object Type을 의미
+metadata: # Object에 대한 정보이다.
+  name: client-pod
+  labels:
+    component: web
+spec:
+  containers: #Pod 안에서 수행되는 Container 정보
+    - name: client
+      image: stephengrider/multi-client
+      ports:
+        - containerPort: 3000
